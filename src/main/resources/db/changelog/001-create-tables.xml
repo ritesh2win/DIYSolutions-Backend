@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd">
+
+    <!-- Orders Table -->
+    <changeSet id="1" author="admin">
+        <createTable tableName="orders">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tracking_number" type="VARCHAR(255)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="order_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pickup_address" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="delivery_mobile" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="delivery_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="delivery_address" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="landmark" type="VARCHAR(255)"/>
+            <column name="pincode" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="alternate_mobile" type="VARCHAR(15)"/>
+            <column name="email" type="VARCHAR(100)"/>
+            <column name="billing_same_as_delivery" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Products Table -->
+    <changeSet id="2" author="admin">
+        <createTable tableName="products">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_products_order" references="orders(id)"/>
+            </column>
+            <column name="product_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hsn_code" type="VARCHAR(20)"/>
+            <column name="unit_price" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="discount" type="DECIMAL(10,2)" defaultValueNumeric="0"/>
+            <column name="tax_rate" type="DECIMAL(5,2)" defaultValueNumeric="0"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Payments Table -->
+    <changeSet id="3" author="admin">
+        <createTable tableName="payments">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_payments_order" references="orders(id)"/>
+            </column>
+            <column name="payment_method" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Package Details Table -->
+    <changeSet id="4" author="admin">
+        <createTable tableName="package_details">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_package_order" references="orders(id)"/>
+            </column>
+            <column name="dead_weight" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="length" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="breadth" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="height" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="volumetric_weight" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="applicable_weight" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="5" author="admin">
+        <createTable tableName="users">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="security_question" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="security_answer" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="6" author="admin">
+        <createIndex indexName="idx_products_order" tableName="products">
+            <column name="order_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="7" author="admin">
+        <createIndex indexName="idx_payments_order" tableName="payments">
+            <column name="order_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="8" author="admin">
+        <createIndex indexName="idx_package_order" tableName="package_details">
+            <column name="order_id"/>
+        </createIndex>
+    </changeSet>
+
+
+</databaseChangeLog>
