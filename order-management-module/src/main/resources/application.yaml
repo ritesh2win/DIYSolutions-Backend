@@ -1,5 +1,5 @@
 server:
-  port: 8081  # Running Order Service on a separate port
+  port: 8085  # Running Order Service on a separate port
 
 spring:
   datasource:
