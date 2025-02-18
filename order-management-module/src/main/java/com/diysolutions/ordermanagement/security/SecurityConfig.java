@@ -56,7 +56,8 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**",
                                 "/v3/api-docs",
-                                "/webjars/**"
+                                "/webjars/**",
+                                "/auth/**"
                         ).permitAll() // Allow Swagger UI access
                         .anyRequest().authenticated() // All other requests require authentication
                 )

@@ -1,52 +1,52 @@
 package com.diysolutions.ordermanagement.service;
 
-
 import com.diysolutions.dto.authentication.LoginRequest;
 import com.diysolutions.dto.authentication.SignupRequest;
 import com.diysolutions.entity.ordermanagement.User;
 import com.diysolutions.enums.Role;
+import com.diysolutions.ordermanagement.exception.UserException;
 import com.diysolutions.ordermanagement.repo.UserRepository;
+import com.diysolutions.ordermanagement.constants.ErrorMessages;
+import com.diysolutions.ordermanagement.util.PasswordUtil;
+import com.diysolutions.ordermanagement.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
     }
 
     public String signup(SignupRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists!");
+            throw new UserException(ErrorMessages.EMAIL_ALREADY_EXISTS);
         }
 
         User user = new User();
         user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(PasswordUtil.encode(request.getPassword()));
         user.setFullName(request.getFullName());
-        user.setRole(String.valueOf(Role.USER));
+        user.setRole(request.getRole() != null ? request.getRole() : Role.USER);
+        user.setSecurityQuestion(request.getSecurityQuestion());
+        user.setSecurityAnswer(request.getSecurityAnswer());
 
         userRepository.save(user);
-        return jwtService.generateToken(user);
+        return JwtUtil.generateToken(user);
     }
 
     public String login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+                .orElseThrow(() -> new UserException(ErrorMessages.INVALID_CREDENTIALS));
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid email or password");
+        if (!PasswordUtil.matches(request.getPassword(), user.getPassword())) {
+            throw new UserException(ErrorMessages.INVALID_CREDENTIALS);
         }
 
-        return jwtService.generateToken(user);
+        return JwtUtil.generateToken(user);
     }
 }
