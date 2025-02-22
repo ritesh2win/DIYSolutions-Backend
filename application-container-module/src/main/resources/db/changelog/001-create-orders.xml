@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd">
+
+    <!-- Orders Table -->
+    <changeSet id="1" author="admin">
+        <createTable tableName="orders">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="VARCHAR(50)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="order_date" type="TIMESTAMP"/>
+            <column name="channel" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="payment_method" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_first_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="customer_last_name" type="VARCHAR(100)"/>
+            <column name="email" type="VARCHAR(100)"/>
+            <column name="customer_mobile" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="alternate_mobile" type="VARCHAR(15)"/>
+            <column name="shipping_address_line1" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipping_address_line2" type="TEXT"/>
+            <column name="shipping_country" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipping_state" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipping_city" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipping_postcode" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="billing_same_as_delivery" type="BOOLEAN" defaultValueBoolean="true"/>
+            <column name="billing_address_line1" type="TEXT"/>
+            <column name="billing_address_line2" type="TEXT"/>
+            <column name="billing_country" type="VARCHAR(100)"/>
+            <column name="billing_state" type="VARCHAR(100)"/>
+            <column name="billing_city" type="VARCHAR(100)"/>
+            <column name="billing_postcode" type="VARCHAR(10)"/>
+            <column name="master_sku" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_quantity" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tax_percentage" type="DECIMAL(5,2)"/>
+            <column name="selling_price" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="discount" type="DECIMAL(10,2)"/>
+            <column name="shipping_charges" type="DECIMAL(10,2)"/>
+            <column name="cod_charges" type="DECIMAL(10,2)"/>
+            <column name="gift_wrap_charges" type="DECIMAL(10,2)"/>
+            <column name="total_discount" type="DECIMAL(10,2)"/>
+            <column name="length" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="breadth" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="height" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weight" type="DECIMAL(10,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="send_notification" type="BOOLEAN"/>
+            <column name="comment" type="TEXT"/>
+            <column name="hsn_code" type="VARCHAR(50)"/>
+            <column name="location_id" type="VARCHAR(50)"/>
+            <column name="reseller_name" type="VARCHAR(255)"/>
+            <column name="company_name" type="VARCHAR(255)"/>
+            <column name="latitude" type="DECIMAL(10,6)"/>
+            <column name="longitude" type="DECIMAL(10,6)"/>
+            <column name="verified_order" type="BOOLEAN"/>
+            <column name="is_documents" type="BOOLEAN"/>
+            <column name="order_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_tag" type="VARCHAR(255)"/>
+            <column name="fulfillment_tat" type="INTEGER"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

@@ -35,14 +35,13 @@ public class PackageDetail {
 
     @NotNull
     private BigDecimal height;
+    @NotNull
+    private BigDecimal applicableWeight;
 
     @Transient
     public BigDecimal getVolumetricWeight() {
         return length.multiply(breadth).multiply(height).divide(BigDecimal.valueOf(5000), 2, BigDecimal.ROUND_HALF_UP);
     }
-
-    @NotNull
-    private BigDecimal applicableWeight;
 
     // Getters and Setters
 }
