@@ -1,0 +1,51 @@
+server:
+  port: 8085  # Running Order Service on a separate port
+
+security:
+  jwt:
+    secret-key: 3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b
+    expiration-time: 3600000 # 1h in millisecond
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
+spring:
+  security:
+    enabled: false
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/courier_aggregator?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none  # Using Liquibase for schema changes
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+
+  kafka:
+    bootstrap-servers: localhost:9092  # Kafka server for event-driven architecture
+
+  feign:
+    client:
+      config:
+        default:
+          connectTimeout: 5000
+          readTimeout: 5000
+  liquibase:
+    secureParsing: false
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.springframework: DEBUG
