@@ -8,7 +8,6 @@
     <include file="src/main/resources/db/changelog/002-create-products.xml"/>
     <include file="src/main/resources/db/changelog/003-create-payments.xml"/>
     <include file="src/main/resources/db/changelog/004-create-package-details.xml"/>
-    <include file="src/main/resources/db/changelog/005-create-users.xml"/>
     <include file="src/main/resources/db/changelog/006-create-role.xml"/>
-    <include file="src/main/resources/db/changelog/007-create-roles-seq.xml"/>
+    <include file="src/main/resources/db/changelog/005-create-users.xml"/>
 </databaseChangeLog>
